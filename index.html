@@ -512,14 +512,15 @@ function sendProgress() {
 render();
 
 /* ===== ACCESO ===== */
-var GATE_KEY = "reto5dias-gate";
+var CODE = "RETO"; /* Johanna lo cambia si sale alguien */
+var GATE_KEY = "reto5dias-gate-" + CODE;
 function openApp() {
   document.getElementById("gate").style.display = "none";
   document.getElementById("app").style.display = "block";
 }
 function tryGate() {
   var v = document.getElementById("gateInput").value.trim().toUpperCase();
-  if (v === "RETO") {
+  if (v === CODE) {
     try { localStorage.setItem(GATE_KEY, "1"); } catch(e) {}
     openApp();
   } else {
