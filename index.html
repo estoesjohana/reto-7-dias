@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Reto 7 días · Transforma tu historia en poder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --crema:#F6F0E3;
+  --crema2:#EFE7D3;
+  --vino:#3E0111;
+  --vino2:#5c0a1c;
+  --dorado:#C9A227;
+  --dorado2:#b08d1e;
+  --ink-soft:#6b5a52;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  background:var(--crema);
+  color:var(--vino);
+  min-height:100vh;
+  padding-bottom:48px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:520px;margin:0 auto;padding:0 20px;}
+
+/* ===== HERO ===== */
+.hero{
+  text-align:center;
+  padding:44px 20px 28px;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:"reto";
+  position:absolute;
+  top:6px;right:-8px;
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:92px;
+  color:rgba(62,1,17,.06);
+  pointer-events:none;
+}
+.vip{
+  display:inline-block;
+  font-size:11px;
+  letter-spacing:4px;
+  font-weight:700;
+  color:var(--dorado2);
+  border:1px solid var(--dorado);
+  border-radius:999px;
+  padding:6px 16px;
+  margin-bottom:18px;
+  background:rgba(201,162,39,.08);
+}
+.hero h1{
+  font-family:'Playfair Display',serif;
+  font-weight:800;
+  font-size:44px;
+  line-height:1.05;
+  color:var(--vino);
+  margin-bottom:10px;
+}
+.hero h1 em{font-style:italic;color:var(--dorado2);}
+.hero .sub{
+  font-size:16px;
+  color:var(--ink-soft);
+  font-weight:500;
+}
+
+/* ===== REGLA ===== */
+.regla{
+  background:var(--vino);
+  color:var(--crema);
+  border-radius:18px;
+  padding:22px 20px;
+  margin:6px 0 24px;
+  box-shadow:0 10px 28px rgba(62,1,17,.25);
+  position:relative;
+}
+.regla::before{
+  content:"“";
+  font-family:'Playfair Display',serif;
+  font-size:56px;
+  line-height:1;
+  color:var(--dorado);
+  position:absolute;
+  top:8px;left:16px;
+  opacity:.9;
+}
+.regla .lbl{
+  font-size:11px;
+  letter-spacing:3px;
+  font-weight:700;
+  color:var(--dorado);
+  margin-bottom:10px;
+  padding-left:34px;
+}
+.regla p{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:17px;
+  line-height:1.55;
+  padding-left:34px;
+}
+
+/* ===== PROGRESO ===== */
+.prog{margin-bottom:26px;}
+.prog .top{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  margin-bottom:8px;
+}
+.prog .top b{font-size:15px;}
+.prog .top span{font-size:13px;color:var(--ink-soft);font-weight:600;}
+.bar{
+  height:12px;
+  background:var(--crema2);
+  border-radius:8px;
+  overflow:hidden;
+  border:1px solid rgba(62,1,17,.12);
+}
+.bar i{
+  display:block;height:100%;width:0%;
+  background:linear-gradient(90deg,var(--dorado),var(--dorado2));
+  border-radius:8px;
+  transition:width .5s ease;
+}
+
+/* ===== TARJETAS DE DÍA ===== */
+.dia{
+  background:#fff;
+  border:1px solid rgba(62,1,17,.12);
+  border-radius:20px;
+  padding:24px 20px;
+  margin-bottom:18px;
+  box-shadow:0 6px 20px rgba(62,1,17,.07);
+  position:relative;
+  transition:opacity .3s, transform .3s;
+}
+.dia .num{
+  font-family:'Playfair Display',serif;
+  font-weight:800;
+  font-size:40px;
+  line-height:1;
+  color:var(--vino);
+  margin-bottom:2px;
+}
+.dia .num::after{
+  content:"";
+  display:block;
+  width:52px;height:3px;
+  background:var(--dorado);
+  border-radius:2px;
+  margin-top:8px;
+}
+.dia h2{
+  font-family:'Playfair Display',serif;
+  font-weight:700;
+  font-size:22px;
+  margin:12px 0 10px;
+  color:var(--vino);
+}
+.dia .guia{
+  font-size:14.5px;
+  line-height:1.65;
+  color:#4a3a34;
+  margin-bottom:14px;
+}
+.dia .tarea{
+  background:rgba(201,162,39,.12);
+  border-left:3px solid var(--dorado);
+  border-radius:0 12px 12px 0;
+  padding:12px 14px;
+  font-size:14px;
+  font-weight:600;
+  margin-bottom:16px;
+  color:var(--vino);
+}
+.dia .tarea small{
+  display:block;
+  font-size:11px;
+  letter-spacing:2px;
+  font-weight:700;
+  color:var(--dorado2);
+  margin-bottom:4px;
+}
+.btn{
+  display:block;width:100%;
+  border:none;cursor:pointer;
+  font-family:'Inter',sans-serif;
+  font-size:15px;font-weight:700;
+  padding:14px;border-radius:14px;
+  transition:transform .15s, background .2s;
+}
+.btn:active{transform:scale(.98);}
+.btn-hacer{
+  background:var(--vino);
+  color:var(--crema);
+}
+.btn-hacer:hover{background:var(--vino2);}
+.dia.done{opacity:.62;}
+.dia.done .num{color:var(--dorado2);}
+.dia.done .check-badge{
+  position:absolute;
+  top:18px;right:18px;
+  width:44px;height:44px;
+  border-radius:50%;
+  background:var(--dorado);
+  color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;
+  box-shadow:0 4px 12px rgba(201,162,39,.5);
+}
+.btn-deshacer{
+  background:transparent;
+  color:var(--ink-soft);
+  border:1px solid rgba(62,1,17,.25);
+  font-size:13px;
+  padding:10px;
+}
+
+/* ===== CELEBRACIÓN ===== */
+.celebra{
+  display:none;
+  text-align:center;
+  background:linear-gradient(135deg,var(--vino),var(--vino2));
+  color:var(--crema);
+  border-radius:20px;
+  padding:30px 22px;
+  margin:6px 0 22px;
+  box-shadow:0 12px 32px rgba(62,1,17,.3);
+}
+.celebra.show{display:block;animation:pop .5s ease;}
+@keyframes pop{from{transform:scale(.94);opacity:0;}to{transform:scale(1);opacity:1;}}
+.celebra .trofeo{font-size:46px;margin-bottom:8px;}
+.celebra h2{
+  font-family:'Playfair Display',serif;
+  font-size:26px;
+  margin-bottom:8px;
+  color:var(--dorado);
+}
+.celebra p{font-size:14.5px;line-height:1.6;color:rgba(246,240,227,.9);}
+
+/* ===== WHATSAPP ===== */
+.wa-sec{margin:26px 0 8px;text-align:center;}
+.wa-sec p{font-size:13.5px;color:var(--ink-soft);margin-bottom:12px;line-height:1.55;}
+.btn-wa{
+  background:#1faa53;
+  color:#fff;
+  font-size:16px;
+  padding:16px;
+  border-radius:16px;
+  box-shadow:0 8px 22px rgba(31,170,83,.35);
+}
+.btn-wa:hover{background:#178a43;}
+
+/* ===== FOOTER ===== */
+footer{
+  text-align:center;
+  margin-top:34px;
+  font-size:12px;
+  color:var(--ink-soft);
+  letter-spacing:.5px;
+}
+footer b{color:var(--vino);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <span class="vip">VIP</span>
+    <h1>Reto <em>7 días</em></h1>
+    <p class="sub">Transforma tu historia en poder</p>
+  </header>
+
+  <section class="regla">
+    <div class="lbl">LA REGLA DEL RETO</div>
+    <p>Aquí no gana quien haga el contenido más bonito. Gana la que haga los siete aunque le dé pena, aunque no le quede perfecto y aunque tenga que repetir veinte veces. Porque este reto no es de edición; es de acción.</p>
+  </section>
+
+  <section class="prog">
+    <div class="top"><b>Tu progreso, reina 👑</b><span id="progTxt">0 de 7 días</span></div>
+    <div class="bar"><i id="progBar"></i></div>
+  </section>
+
+  <main id="dias"></main>
+
+  <section class="celebra" id="celebra">
+    <div class="trofeo">🏆</div>
+    <h2>¡Lo lograste, reina!</h2>
+    <p>Completaste los 7 días del reto. Créetelo: ya no necesitas que nadie te dé permiso para contar tu historia. Grábate. Cuéntalo. Publícalo. 👑</p>
+  </section>
+
+  <section class="wa-sec">
+    <p>¿Terminaste un día? Mándale tu progreso a Johanna por WhatsApp y celebra con ella cada paso.</p>
+    <button class="btn btn-wa" onclick="sendProgress()">Enviar mi progreso a Johanna 💬</button>
+  </section>
+
+  <footer>
+    <b>@estoesjohana</b> · www.entrenosotrasmujer.com
+  </footer>
+
+</div>
+
+<script>
+var DIAS = [
+  {
+    n: 1,
+    titulo: "Preséntate sin impresionar",
+    guia: "No quiero la típica presentación de \u201Chola, soy fulana, tengo tantos años y me dedico a esto\u201D. Quiero que me cuentes quién eres tú: qué haces, qué te gusta, qué estás construyendo, qué te mueve, algo que quieras que las personas sepan de ti. Y sobre todo, no intentes impresionar a nadie. No te prepares un discurso perfecto: agarra el teléfono, grábate, cuéntalo\u2026 y publícalo.",
+    tarea: "Grábate presentándote sin guion perfecto y publícalo."
+  },
+  {
+    n: 2,
+    titulo: "Romantiza tu vida",
+    guia: "Para crear contenido no tienes que estar haciendo algo extraordinario. Piensa: ¿cuál es ese momento de tu día que disfrutas? Tu café en la mañana, entrenar, cocinar, tu novela, una copa de vino\u2026 lo que sea. Romantiza ese momento y grábalo en detalles: tus manos, de lejos, de cerca, tú disfrutándolo. Porque tu vida ya tiene contenido; lo que pasa es que todavía no has aprendido a verlo.",
+    tarea: "Graba en detalles ese momento que disfrutas y publícalo."
+  },
+  {
+    n: 3,
+    titulo: "Hoy toca incomodarte",
+    guia: "Agarra tu trípode y vete a un lugar público: un café, un restaurante, un parque, una plaza, donde quieras, pero tiene que haber gente. Saca tu trípode, pon tu teléfono y grábate. ¿Por qué? Porque lo que más nos frena es \u201Cme están mirando, qué pena\u201D. Hoy quiero que lo sientas\u2026 y que lo hagas igual. No busco el video más bonito del reto; busco que compruebes que puedes sentir vergüenza y aun así hacerlo.",
+    tarea: "Grábate con tu trípode en un lugar público con gente y publícalo."
+  },
+  {
+    n: 4,
+    titulo: "Cuenta algo que nunca has contado",
+    guia: "Piensa en algo de tu vida que nunca hayas contado en redes: una decisión, un fracaso, un aprendizaje, un momento difícil. Ojo: no quiero que cuentes un trauma por obligación ni que te expongas de una manera que no quieras. Pregúntate: ¿qué aprendí de esto?, ¿qué podría llevarse otra persona de mi experiencia? Cuando aprendemos a contar nuestras historias, dejamos de crear contenido vacío y empezamos a crear contenido que hace que alguien diga: \u201Ca mí también me pasó\u201D.",
+    tarea: "Elige una historia tuya nunca contada, cuéntala en video y publícala."
+  },
+  {
+    n: 5,
+    titulo: "Crea para que respondan",
+    guia: "Cambia el chip de \u201Cvoy a publicar algo\u201D por \u201Cvoy a provocar una conversación\u201D. Crea un contenido pensado para que a la persona del otro lado le nazca responderte: una opinión, una pregunta, \u201C¿a ti también te pasa?\u201D, que elijan entre dos opciones\u2026 Y aplica lo aprendido: un gancho que me haga quedarme, un mensaje que me haga conectar y un llamado a la acción que me dé una razón para participar. Vamos a dejar de hablarle a la audiencia y a empezar a hablar con ella.",
+    tarea: "Publica un contenido diseñado para provocar respuestas y conversación."
+  },
+  {
+    n: 6,
+    titulo: "El color que incomoda",
+    guia: "Este reto empieza la noche anterior: ve a tus historias y pregúntale a tu comunidad algo como \u201C¿qué color creen que yo jamás me pondría?\u201D. De las respuestas, escoge un color que normalmente no usarías o que te saque de tu zona de confort. Al día siguiente póntelo: ropa, maquillaje, accesorios\u2026 y crea contenido alrededor de eso. ¿Por qué? Primero, involucras a tu comunidad en tu contenido. Segundo, haces algo diferente a lo normal. Y quizás termines diciendo: \u201Cyo juraba que este color me quedaba horrible y resulta que me encanta\u201D.",
+    tarea: "Pregunta el color en tus historias, póntelo al día siguiente y crea contenido con eso."
+  },
+  {
+    n: 7,
+    titulo: "Créetelo, grábate y cuéntalo",
+    guia: "El último día no te voy a decir qué publicar: si después de siete días todavía necesitas que te diga qué grabar, no terminamos el trabajo. Hoy te toca a ti: piensa una idea y construye tu pieza desde cero aplicando todo. Créetelo (deja de esperar sentirte 100% preparada), grábate (con lo que tienes) y cuéntalo (¿qué historia quieres contar?, ¿qué quieres provocar en quien te ve?). Puede ser de tu negocio, tu vida, algo que sabes\u2026 yo no voy a escoger el tema por ti. Porque ya no necesitas que alguien te dé permiso ni te diga qué publicar. Créetelo. Grábate. Cuéntalo. Y publícalo.",
+    tarea: "Crea tu pieza desde cero, sin tema asignado, y publícala."
+  }
+];
+
+var KEY = "reto7dias-v1";
+var done = {};
+try {
+  done = JSON.parse(localStorage.getItem(KEY) || "{}");
+} catch(e) { done = {}; }
+
+function save() {
+  try { localStorage.setItem(KEY, JSON.stringify(done)); } catch(e) {}
+}
+
+function countDone() {
+  var c = 0;
+  for (var i = 1; i <= 7; i++) { if (done[i]) c++; }
+  return c;
+}
+
+function render() {
+  var box = document.getElementById("dias");
+  var html = "";
+  DIAS.forEach(function(d) {
+    var isDone = !!done[d.n];
+    html += '<article class="dia' + (isDone ? " done" : "") + '">';
+    if (isDone) html += '<div class="check-badge">✓</div>';
+    html += '<div class="num">DÍA ' + d.n + "</div>";
+    html += "<h2>" + d.titulo + "</h2>";
+    html += '<p class="guia">' + d.guia + "</p>";
+    html += '<div class="tarea"><small>TU TAREA</small>' + d.tarea + "</div>";
+    if (isDone) {
+      html += '<button class="btn btn-deshacer" onclick="toggle(' + d.n + ')">Desmarcar</button>';
+    } else {
+      html += '<button class="btn btn-hacer" onclick="toggle(' + d.n + ')">Ya lo hice ✅</button>';
+    }
+    html += "</article>";
+  });
+  box.innerHTML = html;
+
+  var c = countDone();
+  document.getElementById("progTxt").textContent = c + " de 7 días";
+  document.getElementById("progBar").style.width = (c / 7 * 100) + "%";
+  document.getElementById("celebra").classList.toggle("show", c === 7);
+}
+
+function toggle(n) {
+  done[n] = !done[n];
+  if (!done[n]) delete done[n];
+  save();
+  render();
+}
+
+function sendProgress() {
+  var c = countDone();
+  var lines = [];
+  DIAS.forEach(function(d) {
+    lines.push((done[d.n] ? "✅" : "⬜") + " Día " + d.n + ": " + d.titulo);
+  });
+  var msg = "Hola Johanna 👑 Soy del reto \u201CTransforma tu historia en poder\u201D y llevo " +
+    c + " de 7 días completados:\n\n" + lines.join("\n");
+  window.open("https://wa.me/19046293118?text=" + encodeURIComponent(msg), "_blank");
+}
+
+render();
+</script>
+</body>
+</html>
