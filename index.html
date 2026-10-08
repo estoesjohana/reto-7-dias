@@ -205,6 +205,16 @@ body{
 }
 .btn-hacer:hover{background:var(--vino2);}
 .dia.done{opacity:.62;}
+.dia.locked{
+  background:rgba(62,1,17,.045);
+  border-style:dashed;
+  text-align:center;
+  padding:28px 20px;
+}
+.dia.locked .num{color:rgba(62,1,17,.35);}
+.dia.locked .num::after{margin-left:auto;margin-right:auto;background:rgba(62,1,17,.2);}
+.dia.locked .candado{font-size:34px;margin-bottom:6px;}
+.dia.locked p{font-size:13px;color:var(--ink-soft);font-style:italic;margin:8px 0 0;}
 .dia.done .num{color:var(--dorado2);}
 .dia.done .check-badge{
   position:absolute;
@@ -356,6 +366,8 @@ var DIAS = [
 ];
 
 var KEY = "reto7dias-v1";
+/* DÍAS DESBLOQUEADOS (1-7). Johanna activa el siguiente cada noche. */
+var DESBLOQUEADOS = 1;
 var done = {};
 try {
   done = JSON.parse(localStorage.getItem(KEY) || "{}");
@@ -375,6 +387,14 @@ function render() {
   var box = document.getElementById("dias");
   var html = "";
   DIAS.forEach(function(d) {
+    if (d.n > DESBLOQUEADOS) {
+      html += '<article class="dia locked">';
+      html += '<div class="candado">🔒</div>';
+      html += '<div class="num">DÍA ' + d.n + "</div>";
+      html += "<p>Próximamente, reina…</p>";
+      html += "</article>";
+      return;
+    }
     var isDone = !!done[d.n];
     html += '<article class="dia' + (isDone ? " done" : "") + '">';
     if (isDone) html += '<div class="check-badge">✓</div>';
@@ -408,7 +428,11 @@ function sendProgress() {
   var c = countDone();
   var lines = [];
   DIAS.forEach(function(d) {
-    lines.push((done[d.n] ? "✅" : "⬜") + " Día " + d.n + ": " + d.titulo);
+    if (d.n > DESBLOQUEADOS) {
+      lines.push("🔒 Día " + d.n + ": Próximamente");
+    } else {
+      lines.push((done[d.n] ? "✅" : "⬜") + " Día " + d.n + ": " + d.titulo);
+    }
   });
   var msg = "Hola Johanna 👑 Soy del reto \u201CTransforma tu historia en poder\u201D y llevo " +
     c + " de 7 días completados:\n\n" + lines.join("\n");
