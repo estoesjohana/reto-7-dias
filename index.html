@@ -227,6 +227,17 @@ body{
   font-size:22px;
   box-shadow:0 4px 12px rgba(201,162,39,.5);
 }
+.reflexion{margin-top:14px;}
+.reflexion label{display:block;font-size:13px;font-weight:700;color:#3E0111;margin-bottom:6px;}
+.reflexion textarea{width:100%;min-height:84px;resize:vertical;border:1.5px solid rgba(62,1,17,.22);border-radius:12px;padding:10px 12px;font-size:14px;line-height:1.55;font-family:inherit;background:#fffdf8;color:#2b2b2b;box-sizing:border-box;}
+.reflexion textarea:focus{outline:none;border-color:#C9A227;box-shadow:0 0 0 3px rgba(201,162,39,.15);}
+.guardado{font-size:11px;color:#8a6d1c;margin-top:4px;min-height:15px;}
+.diario{margin:28px 0 6px;}
+.diario h2{font-family:'Playfair Display',serif;color:#3E0111;font-size:24px;margin-bottom:4px;}
+.diario-sub{font-size:13px;color:#6b5a4a;margin-bottom:14px;}
+.entrada{background:#fff;border:1px solid rgba(62,1,17,.12);border-radius:14px;padding:14px 16px;margin-bottom:10px;}
+.entrada-dia{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8a6d1c;margin-bottom:6px;}
+.entrada p{font-size:14px;line-height:1.6;color:#2b2b2b;white-space:pre-wrap;margin:0;}
 .mensaje-inicio{
   margin:10px 0 2px;
   padding:12px 14px;
@@ -362,6 +373,12 @@ footer b{color:var(--vino);}
     <p>Completaste los 7 días del reto. Créetelo: ya no necesitas que nadie te dé permiso para contar tu historia. Grábate. Cuéntalo. Publícalo. 👑</p>
   </section>
 
+  <section class="diario" id="diarioSec" style="display:none">
+    <h2>\uD83D\uDCDD Mi diario del reto</h2>
+    <p class="diario-sub">Tus palabras de cada d\u00EDa, guardadas aqu\u00ED. Al final del reto vuelve a leerlas y mira todo lo que avanzaste, reina.</p>
+    <div id="diarioList"></div>
+  </section>
+
   <section class="wa-sec">
     <p>¿Terminaste un día? Mándale tu progreso a Johanna por WhatsApp y celebra con ella cada paso.</p>
     <button class="btn btn-wa" onclick="sendProgress()">Enviar mi progreso a Johanna 💬</button>
@@ -445,6 +462,39 @@ function save() {
   try { localStorage.setItem(KEY, JSON.stringify(done)); } catch(e) {}
 }
 
+var NOTAS_KEY = "reto5dias-notas-v1";
+var notas = {};
+try {
+  notas = JSON.parse(localStorage.getItem(NOTAS_KEY) || "{}");
+} catch(e) { notas = {}; }
+
+function saveNota(n, v) {
+  if (v.trim()) notas[n] = v; else delete notas[n];
+  try { localStorage.setItem(NOTAS_KEY, JSON.stringify(notas)); } catch(e) {}
+}
+function esc(s) {
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+function notaInput(n, el) {
+  saveNota(n, el.value);
+  var s = document.getElementById("gsaved-" + n);
+  if (s) s.textContent = "Guardado \u2713";
+  renderDiario();
+}
+function renderDiario() {
+  var ids = Object.keys(notas).map(Number).sort(function(a,b){return a-b;})
+    .filter(function(n){ return notas[n] && notas[n].trim(); });
+  var sec = document.getElementById("diarioSec");
+  if (!ids.length) { sec.style.display = "none"; return; }
+  sec.style.display = "block";
+  var h = "";
+  ids.forEach(function(n) {
+    var d = DIAS[n-1];
+    h += '<div class="entrada"><div class="entrada-dia">D\u00EDa ' + n + ' \u00B7 ' + esc(d.titulo) + '</div><p>' + esc(notas[n]) + '</p></div>';
+  });
+  document.getElementById("diarioList").innerHTML = h;
+}
+
 function countDone() {
   var c = 0;
   for (var i = 1; i <= 7; i++) { if (done[i]) c++; }
@@ -477,6 +527,7 @@ function render() {
     } else {
       html += '<button class="btn btn-hacer" onclick="toggle(' + d.n + ')">Ya lo hice ✅</button>';
     }
+    html += '<div class="reflexion"><label>\uD83D\uDC9B Mi momento de hoy</label><textarea oninput="notaInput(' + d.n + ',this)" placeholder="\u00BFQu\u00E9 signific\u00F3 el reto de hoy para ti? Escr\u00EDbelo aqu\u00ED, reina\u2026">' + esc(notas[d.n] || "") + '</textarea><div class="guardado" id="gsaved-' + d.n + '"></div></div>';
     html += "</article>";
   });
   box.innerHTML = html;
@@ -484,7 +535,8 @@ function render() {
   var c = countDone();
   document.getElementById("progTxt").textContent = c + " de 7 días";
   document.getElementById("progBar").style.width = (c / 7 * 100) + "%";
-  document.getElementById("celebra").classList.toggle("show", c === 5);
+  document.getElementById("celebra").classList.toggle("show", c === 7);
+  renderDiario();
 }
 
 function toggle(n) {
