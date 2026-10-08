@@ -279,9 +279,39 @@ footer{
   letter-spacing:.5px;
 }
 footer b{color:var(--vino);}
+/* ===== ACCESO ===== */
+#gate{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;
+  background:radial-gradient(120% 90% at 50% 0%, #fffdf6 0%, var(--crema) 55%, var(--crema2) 100%);}
+.gate-card{background:#fff;border:1px solid rgba(62,1,17,.14);border-radius:24px;
+  padding:36px 28px;max-width:380px;width:100%;text-align:center;
+  box-shadow:0 18px 50px rgba(62,1,17,.14);}
+.gate-card .vip{display:inline-block;font-size:11px;letter-spacing:3px;font-weight:700;color:var(--dorado2);
+  border:1px solid var(--dorado);border-radius:999px;padding:5px 14px;margin-bottom:14px;}
+.gate-card h1{font-family:'Playfair Display',serif;font-size:30px;color:var(--vino);margin-bottom:8px;}
+.gate-card p{font-size:14px;color:var(--ink-soft);margin-bottom:20px;line-height:1.55;}
+.gate-card input{width:100%;padding:14px 16px;border-radius:14px;border:1.5px solid rgba(62,1,17,.2);
+  font-size:17px;text-align:center;letter-spacing:3px;text-transform:uppercase;font-weight:700;color:var(--vino);
+  background:var(--crema);margin-bottom:12px;outline:none;}
+.gate-card input:focus{border-color:var(--dorado);}
+.gate-err{color:#b3261e;font-size:13px;min-height:20px;margin-top:10px;}
+#app{display:none;}
 </style>
 </head>
 <body>
+
+<!-- ===== ACCESO ===== -->
+<div id="gate">
+  <div class="gate-card">
+    <span class="vip">VIP</span>
+    <h1>Reto 5 días</h1>
+    <p>Zona privada del reto.<br>Ingresa tu código de acceso.</p>
+    <input id="gateInput" type="text" placeholder="CÓDIGO" autocomplete="off">
+    <button class="btn btn-hacer" style="width:100%" onclick="tryGate()">Entrar</button>
+    <div class="gate-err" id="gateErr"></div>
+  </div>
+</div>
+
+<div id="app">
 <div class="wrap">
 
   <header class="hero">
@@ -402,7 +432,7 @@ function render() {
 
   var c = countDone();
   document.getElementById("progTxt").textContent = c + " de 5 días";
-  document.getElementById("progBar").style.width = (c / 7 * 100) + "%";
+  document.getElementById("progBar").style.width = (c / 5 * 100) + "%";
   document.getElementById("celebra").classList.toggle("show", c === 5);
 }
 
@@ -429,6 +459,29 @@ function sendProgress() {
 }
 
 render();
+
+/* ===== ACCESO ===== */
+var GATE_KEY = "reto5dias-gate";
+function openApp() {
+  document.getElementById("gate").style.display = "none";
+  document.getElementById("app").style.display = "block";
+}
+function tryGate() {
+  var v = document.getElementById("gateInput").value.trim().toUpperCase();
+  if (v === "RETO") {
+    try { localStorage.setItem(GATE_KEY, "1"); } catch(e) {}
+    openApp();
+  } else {
+    document.getElementById("gateErr").textContent = "Código incorrecto, reina. Inténtalo de nuevo.";
+  }
+}
+document.getElementById("gateInput").addEventListener("keydown", function(e) {
+  if (e.key === "Enter") tryGate();
+});
+try {
+  if (localStorage.getItem(GATE_KEY) === "1") openApp();
+} catch(e) {}
 </script>
+</div>
 </body>
 </html>
