@@ -457,6 +457,7 @@ var done = {};
 try {
   done = JSON.parse(localStorage.getItem(KEY) || "{}");
 } catch(e) { done = {}; }
+if (!done || typeof done !== "object" || Array.isArray(done)) done = {};
 
 function save() {
   try { localStorage.setItem(KEY, JSON.stringify(done)); } catch(e) {}
@@ -467,6 +468,7 @@ var notas = {};
 try {
   notas = JSON.parse(localStorage.getItem(NOTAS_KEY) || "{}");
 } catch(e) { notas = {}; }
+if (!notas || typeof notas !== "object" || Array.isArray(notas)) notas = {};
 
 function saveNota(n, v) {
   if (v.trim()) notas[n] = v; else delete notas[n];
@@ -490,6 +492,7 @@ function renderDiario() {
   var h = "";
   ids.forEach(function(n) {
     var d = DIAS[n-1];
+    if (!d) return;
     h += '<div class="entrada"><div class="entrada-dia">D\u00EDa ' + n + ' \u00B7 ' + esc(d.titulo) + '</div><p>' + esc(notas[n]) + '</p></div>';
   });
   document.getElementById("diarioList").innerHTML = h;
@@ -530,13 +533,15 @@ function render() {
     html += '<div class="reflexion"><label>\uD83D\uDC9B Mi momento de hoy</label><textarea oninput="notaInput(' + d.n + ',this)" placeholder="\u00BFQu\u00E9 signific\u00F3 el reto de hoy para ti? Escr\u00EDbelo aqu\u00ED, reina\u2026">' + esc(notas[d.n] || "") + '</textarea><div class="guardado" id="gsaved-' + d.n + '"></div></div>';
     html += "</article>";
   });
-  box.innerHTML = html;
+  try { box.innerHTML = html; } catch(e) { if (window.console) console.warn("render:dias", e); }
 
-  var c = countDone();
-  document.getElementById("progTxt").textContent = c + " de 7 días";
-  document.getElementById("progBar").style.width = (c / 7 * 100) + "%";
-  document.getElementById("celebra").classList.toggle("show", c === 7);
-  renderDiario();
+  try {
+    var c = countDone();
+    document.getElementById("progTxt").textContent = c + " de 7 días";
+    document.getElementById("progBar").style.width = (c / 7 * 100) + "%";
+    document.getElementById("celebra").classList.toggle("show", c === 7);
+  } catch(e) { if (window.console) console.warn("render:progreso", e); }
+  try { renderDiario(); } catch(e) { if (window.console) console.warn("render:diario", e); }
 }
 
 function toggle(n) {
@@ -561,7 +566,7 @@ function sendProgress() {
   window.open("https://wa.me/19046293118?text=" + encodeURIComponent(msg), "_blank");
 }
 
-render();
+try { render(); } catch(e) { if (window.console) console.warn("render:init", e); }
 
 /* ===== ACCESO ===== */
 var CODE = "RETO"; /* Johanna lo cambia si sale alguien */
