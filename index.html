@@ -452,7 +452,7 @@ var DIAS = [
 
 var KEY = "reto5dias-v1";
 /* DÍAS DESBLOQUEADOS (1-7). Johanna activa el siguiente cada noche. */
-var DESBLOQUEADOS = 5;
+var DESBLOQUEADOS = 6;
 var done = {};
 try {
   done = JSON.parse(localStorage.getItem(KEY) || "{}");
@@ -569,7 +569,7 @@ function sendProgress() {
 try { render(); } catch(e) { if (window.console) console.warn("render:init", e); }
 
 /* ===== ACCESO ===== */
-var CODE = "REINA"; /* rotado 10 oct 2026 */
+var CODE = "PODER"; /* rotado 12 oct 2026 — salió una participante */
 var GATE_KEY = "reto5dias-gate-" + CODE;
 function openApp() {
   document.getElementById("gate").style.display = "none";
